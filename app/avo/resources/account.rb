@@ -10,7 +10,7 @@ class Avo::Resources::Account < Avo::BaseResource
     field :name, as: :text
     field :service_code, as: :belongs_to
     field :callback, as: :text, readonly: true do
-      "/callback/#{record.service_code.country_code.downcase}/#{record.service_code.short_name}"
+      "/ussd_callback/#{record.service_code.country_code.downcase}/#{record.service_code.short_name}"
     end
   end
 end
