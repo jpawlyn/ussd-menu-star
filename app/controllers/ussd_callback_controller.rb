@@ -4,6 +4,13 @@ class UssdCallbackController < ActionController::API
     account = Account.joins(:service_code)
       .find_by!(service_code: { short_name: params[:short_name], country_code: params[:country_code].upcase })
 
-    render plain: "CON #{account.main_menu.content}"
+    ussd_session = UssdSession.new(account, ussd_params)
+    render plain: ussd_session.response
+  end
+
+  private
+
+  def ussd_params
+    params.permit(:phoneNumber, :text, :sessionId)
   end
 end

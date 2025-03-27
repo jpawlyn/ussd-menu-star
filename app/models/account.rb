@@ -5,7 +5,7 @@ class Account < ApplicationRecord
   belongs_to :service_code
   has_many :menu_items, dependent: :restrict_with_error
 
-  def main_menu
+  def main_menu_item
     menu_items.find_by(menu_item: nil)
   end
 end
