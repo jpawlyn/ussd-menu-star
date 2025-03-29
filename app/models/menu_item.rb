@@ -22,6 +22,10 @@ class MenuItem < ApplicationRecord
     menu_items[user_input.to_i - 1]
   end
 
+  def self.ransackable_attributes(_auth_object = nil)
+    column_names
+  end
+
   private
 
   def fetch_content

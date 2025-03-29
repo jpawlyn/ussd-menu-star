@@ -49,4 +49,5 @@ group :development do
 end
 
 gem "avo", ">= 3.2"
+gem "ransack"
 gem "request_store"

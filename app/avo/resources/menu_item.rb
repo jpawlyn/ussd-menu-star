@@ -1,9 +1,10 @@
 class Avo::Resources::MenuItem < Avo::BaseResource
-  # self.includes = []
+  self.record_selector = false
+  self.includes = [ :menu_item, :account ]
   # self.attachments = []
-  # self.search = {
-  #   query: -> { query.ransack(id_eq: params[:q], m: "or").result(distinct: false) }
-  # }
+  self.search = {
+    query: -> { query.ransack(title_start: params[:q], m: "or").result(distinct: false) }
+  }
 
   def fields
     field :id, as: :id

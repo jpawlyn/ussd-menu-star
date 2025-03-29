@@ -1,4 +1,5 @@
 class Avo::Resources::ServiceCode < Avo::BaseResource
+  self.record_selector = false
   # self.includes = []
   # self.attachments = []
   # self.search = {
