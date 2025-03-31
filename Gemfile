@@ -48,6 +48,7 @@ group :development do
   gem "web-console"
 end
 
+gem "acts_as_list"
 gem "avo", ">= 3.2"
 gem "ransack"
 gem "request_store"

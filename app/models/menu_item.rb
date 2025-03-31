@@ -8,7 +8,19 @@ class MenuItem < ApplicationRecord
 
   belongs_to :account
   belongs_to :menu_item, optional: true
-  has_many :menu_items, dependent: :restrict_with_error
+  has_many :menu_items, -> { order(position: :asc) }, dependent: :restrict_with_error
+
+  acts_as_list scope: :menu_item
+
+  scope :in_hierarchy_order, -> { in_order_of(:id, hierarchy_order.map(&:id)) }
+
+  def self.hierarchy_order
+    with_recursive(descendants: [
+      Arel.sql(select("menu_items.*", "0 as depth").where(menu_item: nil).to_sql),
+      Arel.sql(select("menu_items.*", "descendants.depth + 1 as depth")
+        .joins("JOIN descendants ON menu_items.menu_item_id = descendants.id").to_sql)
+    ]).select("*").from("descendants").order("depth ASC, position ASC")
+  end
 
   def menu_text
     text = fetch_content
@@ -20,6 +32,10 @@ class MenuItem < ApplicationRecord
 
   def select_menu_item(user_input)
     menu_items[user_input.to_i - 1]
+  end
+
+  def avo_name
+    "#{title} (#{account.name})"
   end
 
   def self.ransackable_attributes(_auth_object = nil)

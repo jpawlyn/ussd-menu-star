@@ -43,11 +43,11 @@ Avo.configure do |config|
   # config.locale = 'en-US'
 
   ## == Resource options ==
-  # config.resource_row_controls_config = {
-  #   placement: :right,
-  #   float: false,
-  #   show_on_hover: false
-  # }.freeze
+  config.resource_row_controls_config = {
+    placement: false,
+    float: false,
+    show_on_hover: false
+  }.freeze
   # config.model_resource_mapping = {}
   # config.default_view_type = :table
   # config.per_page = 24
