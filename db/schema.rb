@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_29_134132) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_31_115720) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -45,7 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_29_134132) do
     t.datetime "updated_at", null: false
     t.index ["country_code"], name: "index_service_codes_on_country_code"
     t.index ["name"], name: "index_service_codes_on_name", unique: true
-    t.index ["short_name"], name: "index_service_codes_on_short_name", unique: true
+    t.index ["short_name", "country_code"], name: "index_service_codes_on_short_name_and_country_code", unique: true
   end
 
   add_foreign_key "accounts", "service_codes"
