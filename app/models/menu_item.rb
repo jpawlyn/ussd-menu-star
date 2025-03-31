@@ -12,8 +12,11 @@ class MenuItem < ApplicationRecord
 
   acts_as_list scope: :menu_item
 
+  # this is not very efficient since it retrieves the ids of ALL menu items
+  # irrespective of whether they are needed
   scope :in_hierarchy_order, -> { in_order_of(:id, hierarchy_order.map(&:id)) }
 
+  # recursive CTE to get the hierarchy of menu items in order
   def self.hierarchy_order
     with_recursive(descendants: [
       Arel.sql(select("menu_items.*", "0 as depth").where(menu_item: nil).to_sql),
