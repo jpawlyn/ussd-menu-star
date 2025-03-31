@@ -1,5 +1,5 @@
-class UssdCallbackController < ActionController::API
-  def create
+class UssdController < ActionController::API
+  def callback
     logger.info(params)
     account = Account.joins(:service_code)
       .find_by!(service_code: { short_name: params[:short_name], country_code: params[:country_code].upcase })
