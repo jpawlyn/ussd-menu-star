@@ -13,7 +13,8 @@ class MenuItem < ApplicationRecord
   acts_as_list scope: :menu_item
 
   # this is not very efficient since it retrieves the ids of ALL menu items
-  # irrespective of whether they are needed
+  # irrespective of whether they are needed. It would be better to pass in the root node
+  # but that wouldn't play so nicely with the Avo has_many field
   scope :in_hierarchy_order, -> { in_order_of(:id, hierarchy_order.map(&:id)) }
 
   # recursive CTE to get the hierarchy of menu items in order
