@@ -4,7 +4,7 @@ class ServiceCode < ApplicationRecord
   validates :short_name, uniqueness: { scope: :country_code }, presence: true
 
   normalizes :name, :country_code, :short_name, with: ->(name_attr) { name_attr.strip }
-  normalizes :short_name, with: ->(name_attr) { name_attr.downcase.strip.gsub(" ", "-") }
+  normalizes :short_name, with: ->(name_attr) { name_attr.downcase.squish.gsub(" ", "-") }
 
   has_many :accounts, dependent: :restrict_with_error
 end
