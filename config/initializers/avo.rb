@@ -44,9 +44,9 @@ Avo.configure do |config|
 
   ## == Resource options ==
   config.resource_row_controls_config = {
-    placement: false,
-    float: false,
-    show_on_hover: false
+    placement: :right,
+    float: true,
+    show_on_hover: true
   }.freeze
   # config.model_resource_mapping = {}
   # config.default_view_type = :table
@@ -80,11 +80,11 @@ Avo.configure do |config|
   # config.cache_resources_on_index_view = true
 
   ## == Turbo options ==
-  # config.turbo = -> do
-  #   {
-  #     instant_click: true
-  #   }
-  # end
+  config.turbo = -> do
+    {
+      instant_click: true
+    }
+  end
 
   ## == Logger ==
   # config.logger = -> {
