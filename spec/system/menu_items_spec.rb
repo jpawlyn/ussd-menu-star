@@ -1,5 +1,9 @@
 describe 'Menu item admin actions' do
   let!(:account) { create(:account) }
+  let(:user) { create(:user) }
+  before do
+    sign_in_as user
+  end
 
   it 'creates a main menu item followed by a submenu item' do
     visit avo.resources_menu_items_path

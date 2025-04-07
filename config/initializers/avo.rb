@@ -7,7 +7,7 @@ Avo.configure do |config|
   # config.prefix_path = "/internal"
 
   # Where should the user be redirected when visiting the `/avo` url
-  # config.home_path = nil
+  config.home_path = "/resources/accounts"
 
   ## == Licensing ==
   # config.license_key = ENV['AVO_LICENSE_KEY']
@@ -18,7 +18,9 @@ Avo.configure do |config|
   end
 
   ## == Authentication ==
-  # config.current_user_method = :current_user
+  config.current_user_method do
+    Current.user
+  end
   # config.authenticate_with do
   # end
 
@@ -157,4 +159,8 @@ Avo.configure do |config|
   # config.profile_menu = -> {
   #   link "Profile", path: "/avo/profile", icon: "heroicons/outline/user-circle"
   # }
+end
+
+Rails.configuration.to_prepare do
+  Avo::ApplicationController.include Authentication
 end

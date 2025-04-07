@@ -40,6 +40,11 @@ $ bin/rails db:create RAILS_ENV=test
 $ bin/rails db:migrate
 ```
 
+Create [users](test/fixtures/user.yml) for sign in
+```bash
+bin/rails db:fixtures:load
+```
+
 Run the local server with:
 
 ```bash
@@ -50,7 +55,7 @@ The app should now be available at http://localhost:3000
 
 ## 💯 Tests
 
-Running tests is straightforward. Run rspec:
+To run tests run rspec:
 
 ```bash
 $ bin/rspec

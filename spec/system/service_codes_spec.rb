@@ -1,4 +1,9 @@
 describe 'Service code admin actions' do
+  let(:user) { create(:user) }
+  before do
+    sign_in_as user
+  end
+
   it 'creates a service code' do
     visit avo.resources_service_codes_path
     click_on 'Create new service code'

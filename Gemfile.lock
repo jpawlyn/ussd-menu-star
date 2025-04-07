@@ -99,6 +99,7 @@ GEM
       zeitwerk (>= 2.6.12)
     avo-heroicons (0.1.1)
     base64 (0.2.0)
+    bcrypt (3.1.20)
     benchmark (0.4.0)
     bigdecimal (3.1.9)
     bindex (0.8.1)
@@ -394,6 +395,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_list
   avo (>= 3.2)
+  bcrypt (~> 3.1.7)
   bootsnap
   brakeman
   capybara

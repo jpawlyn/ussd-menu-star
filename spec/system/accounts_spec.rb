@@ -1,5 +1,9 @@
 describe 'Account admin actions' do
   let!(:service_code) { create(:service_code) }
+  let(:user) { create(:user) }
+  before do
+    sign_in_as user
+  end
 
   it 'creates an account' do
     visit avo.resources_accounts_path
