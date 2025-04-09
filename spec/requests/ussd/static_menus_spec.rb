@@ -11,9 +11,7 @@ describe "Menu display and navigation" do
   end
 
   before do
-    # relying on memory store so need to clear before each ussd test
-    # particularly relevant if there is more than one test of course 😄
-    Rails.cache.clear
+    Rails.cache.clear # relying on memory store so need to clear before each ussd test
   end
 
   it "navigate from the main menu to the middle sub menu item and then back to the main menu" do

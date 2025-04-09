@@ -1,4 +1,6 @@
 class MenuItem < ApplicationRecord
+  include SessionStore
+
   validate :account_consistency_check
   validate :menu_item_circularity_check
   validates :title, presence: true
@@ -11,6 +13,7 @@ class MenuItem < ApplicationRecord
   belongs_to :account
   belongs_to :menu_item, optional: true
   has_many :menu_items, -> { order(position: :asc) }, dependent: :restrict_with_error
+  has_many :user_inputs, -> { order(position: :asc) }, dependent: :restrict_with_error
 
   acts_as_list scope: :menu_item
 
@@ -19,7 +22,8 @@ class MenuItem < ApplicationRecord
   # but that wouldn't play so nicely with the Avo has_many field
   scope :in_hierarchy_order, -> { in_order_of(:id, hierarchy.map(&:id)) }
 
-  # recursive CTE to get the hierarchy of menu items in order of depth and position
+  # recursive CTE to get the hierarchy of menu items in order of
+  # depth and position
   # either from a specific menu item or from all root menu items
   def self.hierarchy(menu_item = nil)
     where_clause = menu_item ? { id: menu_item } : { menu_item: nil }
@@ -35,15 +39,15 @@ class MenuItem < ApplicationRecord
   end
 
   def menu_text
-    text = fetch_content
-    menu_items.each_with_index do |menu_item, i|
-      text += "#{i + 1} #{menu_item.title}\n"
-    end
-    text.chop
+    no_user_inputs? ? menu_items_text : user_input_text
   end
 
-  def select_menu_item(user_input)
-    menu_items[user_input.to_i - 1]
+  def select_menu_item(input)
+    no_user_inputs? ? menu_items[input.to_i - 1] : store_input(input)
+  end
+
+  def no_user_inputs?
+    user_inputs.empty?
   end
 
   def avo_name
@@ -55,6 +59,32 @@ class MenuItem < ApplicationRecord
   end
 
   private
+
+  def menu_items_text
+    text = fetch_content
+    menu_items.each_with_index do |menu_item, i|
+      text += "#{i + 1} #{menu_item.title}\n"
+    end
+    text.chop
+  end
+
+  def user_input_text
+    next_user_input = fetch_next_user_input
+    next_user_input ? next_user_input.content : "#{fetch_content}\n0 Back"
+  end
+
+  def store_input(input)
+    return self unless input.present?
+
+    user_input = fetch_next_user_input
+    store_user_input(self, user_input, input) if user_input
+    self
+  end
+
+  def fetch_next_user_input
+    stored_input_keys = fetch_user_input_keys(self)
+    user_inputs.find { |user_input| stored_input_keys.exclude?(user_input.key) }
+  end
 
   def fetch_content
     return "" unless content.present?

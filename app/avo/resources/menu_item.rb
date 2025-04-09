@@ -13,7 +13,12 @@ class Avo::Resources::MenuItem < Avo::BaseResource
     field :menu_item, as: :belongs_to, placeholder: "", attach_scope: -> {
       query.joins(:account).order(accounts: { name: :asc }).order(:position) }
     field :account, as: :belongs_to
-    field :menu_items, as: :has_many, hide_search_input: true, discreet_pagination: true
+    field :menu_items, as: :has_many,
+      visible: -> { resource.record.menu_items.any? || resource.record.user_inputs.empty? },
+      hide_search_input: true, discreet_pagination: true
+    field :user_inputs, as: :has_many,
+      visible: -> { resource.record.user_inputs.any? || resource.record.menu_items.empty? },
+      hide_search_input: true, discreet_pagination: true
   end
 
   def actions

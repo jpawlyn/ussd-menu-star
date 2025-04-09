@@ -41,8 +41,8 @@ class UssdSession
 
   def render_menu(menu_item)
     store_current_menu_item(menu_item)
-    text = "CON " + menu_item.menu_text
-    text += "\n\n0 Back" if menu_item.menu_item
+    text = "CON #{menu_item.menu_text}"
+    text += "\n\n0 Back" if menu_item.menu_item && menu_item.no_user_inputs?
     text
   end
 end

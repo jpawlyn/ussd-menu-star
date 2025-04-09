@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_07_070404) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_08_113756) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -57,6 +57,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_070404) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "user_inputs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "content"
+    t.integer "data_type"
+    t.integer "min_length"
+    t.integer "max_length"
+    t.integer "position"
+    t.bigint "menu_item_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key", "menu_item_id"], name: "index_user_inputs_on_key_and_menu_item_id", unique: true
+    t.index ["menu_item_id"], name: "index_user_inputs_on_menu_item_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "password_digest", null: false
@@ -69,4 +83,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_070404) do
   add_foreign_key "menu_items", "accounts"
   add_foreign_key "menu_items", "menu_items"
   add_foreign_key "sessions", "users"
+  add_foreign_key "user_inputs", "menu_items"
 end

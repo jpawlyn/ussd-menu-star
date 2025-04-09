@@ -30,6 +30,18 @@ module SessionStore
     store_session(current_cache)
   end
 
+  def fetch_user_input_keys(menu_item)
+    fetch_session.dig(:user_input, menu_item.id)&.keys || []
+  end
+
+  def store_user_input(menu_item, user_input, input)
+    current_cache = fetch_session
+    current_cache[:user_input] ||= {}
+    current_cache[:user_input][menu_item.id] ||= {}
+    current_cache[:user_input][menu_item.id][user_input.key] = input
+    store_session(current_cache)
+  end
+
   def fetch_end_of_session
     RequestStore.store[:end_of_session] || false
   end

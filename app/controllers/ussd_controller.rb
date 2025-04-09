@@ -11,6 +11,9 @@ class UssdController < ActionController::API
   private
 
   def ussd_params
-    params.permit(:phoneNumber, :text, :sessionId)
+    params.permit(:phoneNumber, :sessionId, :text).tap do |ussd_params|
+      ussd_params.require(:phoneNumber)
+      ussd_params.require(:sessionId)
+    end
   end
 end
