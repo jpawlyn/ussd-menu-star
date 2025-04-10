@@ -7,6 +7,9 @@ describe "User input" do
     create(:user_input, menu_item: sub_menu_item, data_type: :integer, content: "What is your blood pressure reading?")
   end
   let!(:user_input2) do
+    create(:user_input, menu_item: sub_menu_item, data_type: :number, content: "What is your heart rate?")
+  end
+  let!(:user_input3) do
     create(:user_input, menu_item: sub_menu_item, data_type: :text, content: "How do you feel today?", max_length: 10)
   end
   let(:account) { main_menu.account }
@@ -30,8 +33,17 @@ describe "User input" do
     post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "123"))
     expect(response.body).to eq "CON #{user_input2.content}"
 
+    post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "99.2"))
+    expect(response.body).to eq "CON #{user_input3.content}"
+
     post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "Good"))
     expect(response.body).to eq "CON #{sub_menu_item.content}\n\n0 Back"
+
+    user_data_collections = sub_menu_item.user_data_collections
+    expect(user_data_collections.length).to eq 1
+    expect(user_data_collections.first.msisdn).to eq params[:phoneNumber]
+    expect(user_data_collections.first.data)
+      .to eq({ user_input1.key => 123, user_input2.key => 99.2, user_input3.key => "Good" })
   end
 
   it "provide incorrect data type" do
@@ -47,8 +59,12 @@ describe "User input" do
     post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "123"))
     expect(response.body).to eq "CON #{user_input2.content}"
 
+    post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "99"))
+    expect(response.body).to eq "CON #{user_input3.content}"
+
     post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "Good"))
     expect(response.body).to eq "CON #{sub_menu_item.content}\n\n0 Back"
+    expect(sub_menu_item.user_data_collections.count).to eq 1
   end
 
   it "provide invalid length input" do
@@ -61,11 +77,15 @@ describe "User input" do
     post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "123"))
     expect(response.body).to eq "CON #{user_input2.content}"
 
+    post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "99"))
+    expect(response.body).to eq "CON #{user_input3.content}"
+
     post(ussd_callback_path(service_code.country_code, service_code.short_name),
       params: params.merge(text: "I feel so good!"))
-    expect(response.body).to eq "CON Input must be no more than 10 characters\n\n#{user_input2.content}"
+    expect(response.body).to eq "CON Input must be no more than 10 characters\n\n#{user_input3.content}"
 
     post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "Good"))
     expect(response.body).to eq "CON #{sub_menu_item.content}\n\n0 Back"
+    expect(sub_menu_item.user_data_collections.count).to eq 1
   end
 end

@@ -22,6 +22,9 @@ class Avo::Resources::MenuItem < Avo::BaseResource
     field :user_inputs, as: :has_many,
       visible: -> { resource.record.user_inputs.any? || resource.record.menu_items.empty? },
       hide_search_input: true, discreet_pagination: true
+    field :user_data_collections, as: :has_many,
+      visible: -> { resource.record.user_data_collections.any? },
+      hide_search_input: true, discreet_pagination: true
   end
 
   def actions

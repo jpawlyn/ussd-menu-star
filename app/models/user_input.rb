@@ -14,21 +14,27 @@ class UserInput < ApplicationRecord
   acts_as_list scope: :menu_item
 
   def validate_input(input)
-    return "No input given" if input.blank?
+    return [ "No input given" ] if input.blank?
 
-    error = validate_data_type(input)
-    return error if error
+    error, formatted_input = validate_data_type(input)
+    return Array(error) if error
 
-    validate_input_length(input)
+    [ validate_input_length(input), formatted_input ]
   end
 
   def validate_data_type(input)
     case data_type
     when "integer"
-      !Integer(input, exception: false) ? "You must enter an integer" : nil
+      formatted_input = Integer(input, exception: false)
+      error = !formatted_input ? "You must enter an integer" : nil
     when "number"
-      !Float(input, exception: false) ? "You must enter a number" : nil
+      formatted_input = Float(input, exception: false)
+      error = !formatted_input ? "You must enter a number" : nil
+    when "text"
+      formatted_input = input
+      error = nil
     end
+    [ error, formatted_input ]
   end
 
   def validate_input_length(input)

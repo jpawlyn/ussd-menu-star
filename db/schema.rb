@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_08_113756) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_10_075508) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -57,6 +57,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_113756) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "user_data_collections", force: :cascade do |t|
+    t.string "msisdn"
+    t.jsonb "data"
+    t.bigint "menu_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["menu_item_id"], name: "index_user_data_collections_on_menu_item_id"
+  end
+
   create_table "user_inputs", force: :cascade do |t|
     t.string "key", null: false
     t.string "content"
@@ -83,5 +92,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_113756) do
   add_foreign_key "menu_items", "accounts"
   add_foreign_key "menu_items", "menu_items"
   add_foreign_key "sessions", "users"
+  add_foreign_key "user_data_collections", "menu_items"
   add_foreign_key "user_inputs", "menu_items"
 end

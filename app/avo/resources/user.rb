@@ -11,6 +11,7 @@ class Avo::Resources::User < Avo::BaseResource
     field :email_address, as: :text
     field :password, as: :text, required: true, only_on: :forms
     field :created_at, as: :date_time, format: "dd.LL.yyyy TT", sortable: true, only_on: :index
+    field :updated_at, as: :date_time, format: "dd.LL.yyyy TT", sortable: true, only_on: :index
     field :sessions, as: :has_many
   end
 end

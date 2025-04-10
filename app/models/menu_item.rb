@@ -14,6 +14,7 @@ class MenuItem < ApplicationRecord
   belongs_to :account
   belongs_to :menu_item, optional: true
   has_many :menu_items, -> { order(position: :asc) }, dependent: :restrict_with_error
+  has_many :user_data_collections, -> { order(created_at: :desc) }, dependent: :restrict_with_error
   has_many :user_inputs, -> { order(position: :asc) }, dependent: :restrict_with_error
 
   acts_as_list scope: :menu_item
@@ -71,6 +72,7 @@ class MenuItem < ApplicationRecord
       error_text = @error ? "#{@error}\n\n" : ""
       "#{error_text}#{next_user_input.content}"
     else
+      save_user_data_collection
       "#{fetch_content}\n0 Back"
     end
   end
@@ -79,9 +81,14 @@ class MenuItem < ApplicationRecord
     return self unless input.present?
 
     user_input = fetch_next_user_input
-    @error = user_input&.validate_input(input)
-    store_user_input(self, user_input, input) if user_input && @error.nil?
+    @error, formatted_input = user_input&.validate_input(input)
+    store_user_input(self, user_input, formatted_input) if user_input && @error.nil?
     self
+  end
+
+  def save_user_data_collection
+    user_data_collections.create!(msisdn: fetch_msisdn, data: fetch_user_input(self))
+    clear_user_input(menu_item)
   end
 
   def fetch_next_user_input

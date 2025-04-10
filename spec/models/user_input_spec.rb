@@ -20,19 +20,19 @@ describe UserInput do
       let(:user_input) { create(:user_input, data_type: :integer) }
 
       it "returns nil for valid input" do
-        expect(user_input.validate_input("123")).to be_nil
+        expect(user_input.validate_input("123")).to eq [ nil, 123 ]
       end
 
       it "returns error for number input" do
-        expect(user_input.validate_input("123.4")).to eq "You must enter an integer"
+        expect(user_input.validate_input("123.4")).to eq [ "You must enter an integer" ]
       end
 
       it "returns error for string input" do
-        expect(user_input.validate_input("abc")).to eq "You must enter an integer"
+        expect(user_input.validate_input("abc")).to eq [ "You must enter an integer" ]
       end
 
       it "returns error for no input" do
-        expect(user_input.validate_input("")).to eq "No input given"
+        expect(user_input.validate_input("")).to eq [ "No input given" ]
       end
     end
 
@@ -40,15 +40,15 @@ describe UserInput do
       let(:user_input) { create(:user_input, data_type: :number) }
 
       it "returns nil for number input" do
-        expect(user_input.validate_input("123.21")).to be_nil
+        expect(user_input.validate_input("123.21")).to eq [ nil, 123.21 ]
       end
 
       it "returns nil for integer input" do
-        expect(user_input.validate_input("123")).to be_nil
+        expect(user_input.validate_input("123")).to eq [ nil, 123 ]
       end
 
       it "returns error for string input" do
-        expect(user_input.validate_input("abc")).to eq "You must enter a number"
+        expect(user_input.validate_input("abc")).to eq [ "You must enter a number" ]
       end
     end
 
@@ -56,15 +56,15 @@ describe UserInput do
       let(:user_input) { create(:user_input, data_type: :text, min_length: 3, max_length: 3) }
 
       it "returns nil for number input" do
-        expect(user_input.validate_input("UGD")).to be_nil
+        expect(user_input.validate_input("UGD")).to eq [ nil, "UGD" ]
       end
 
       it "returns error for input of less than 3 characters" do
-        expect(user_input.validate_input("UG")).to eq "Input must be at least 3 characters"
+        expect(user_input.validate_input("UG")).to eq [ "Input must be at least 3 characters", "UG" ]
       end
 
       it "returns error for input of more than 3 characters" do
-        expect(user_input.validate_input("UGDX")).to eq "Input must be no more than 3 characters"
+        expect(user_input.validate_input("UGDX")).to eq [ "Input must be no more than 3 characters", "UGDX" ]
       end
     end
   end

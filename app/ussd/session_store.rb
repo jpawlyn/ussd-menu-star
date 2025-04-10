@@ -11,6 +11,10 @@ module SessionStore
     Rails.cache.read(RequestStore.store[:cache_key])
   end
 
+  def fetch_msisdn
+    fetch_session[:msisdn]
+  end
+
   def store_session(value)
     Rails.cache.write(RequestStore.store[:cache_key], value, expires_in: 3.minutes)
   end
@@ -27,6 +31,16 @@ module SessionStore
 
     current_cache = fetch_session
     current_cache[:current_menu_item_id] = menu_item.id
+    store_session(current_cache)
+  end
+
+  def fetch_user_input(menu_item)
+    fetch_session.dig(:user_input, menu_item.id) || {}
+  end
+
+  def clear_user_input(menu_item)
+    current_cache = fetch_session
+    current_cache[:user_input].delete(menu_item.id)
     store_session(current_cache)
   end
 
