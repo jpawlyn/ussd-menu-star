@@ -37,6 +37,13 @@ describe MenuItem do
       sub_menu_item.menu_item = main_menu
       expect(sub_menu_item).to be_invalid
     end
+
+    it "is invalid to create a sub menu for a menu item with existing user inputs" do
+      menu_item = create(:sub_menu_item)
+      create(:user_input, menu_item: menu_item)
+      sub_menu_item = build(:sub_menu_item, menu_item:, account: menu_item.account)
+      expect(sub_menu_item).to be_invalid
+    end
   end
 
   describe "#hierarchy" do

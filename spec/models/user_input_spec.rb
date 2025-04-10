@@ -1,4 +1,13 @@
 describe UserInput do
+  describe "validations" do
+    it "is invalid to create a user input for a menu item with existing sub menu items" do
+      menu_item = create(:sub_menu_item)
+      create(:sub_menu_item, menu_item:, account: menu_item.account)
+      user_input = build(:user_input, menu_item: menu_item)
+      expect(user_input).to be_invalid
+    end
+  end
+
   describe "normalizations" do
     it "makes key lowercase and replaces spaces with underscores" do
       user_input = create(:user_input, key: "Test  Key")

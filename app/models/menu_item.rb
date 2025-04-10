@@ -3,6 +3,7 @@ class MenuItem < ApplicationRecord
 
   validate :account_consistency_check
   validate :menu_item_circularity_check
+  validate :menu_item_user_inputs_do_not_exist
   validates :title, presence: true
   validates :menu_item, presence: true, if: :main_menu_item_exists?
   validates :menu_item, absence: true, if: :main_menu_item?
@@ -120,5 +121,11 @@ class MenuItem < ApplicationRecord
     return false unless account
 
     MenuItem.where(account:, menu_item: nil).where.not(id:).any?
+  end
+
+  def menu_item_user_inputs_do_not_exist
+    return unless menu_item&.user_inputs&.any?
+
+    errors.add(:menu_item, "must not have any user inputs")
   end
 end

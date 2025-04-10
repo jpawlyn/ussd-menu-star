@@ -1,4 +1,5 @@
 class UserInput < ApplicationRecord
+  validate :menu_items_do_not_exist_for_menu_item
   validates :key, uniqueness: { scope: :menu_item_id }, presence: true
   validates :content, presence: true
   validates :min_length, numericality: { only_integer: true }, allow_nil: true
@@ -36,5 +37,13 @@ class UserInput < ApplicationRecord
     elsif max_length && input.length > max_length
       "Input must be no more than #{max_length} characters"
     end
+  end
+
+  private
+
+  def menu_items_do_not_exist_for_menu_item
+    return unless menu_item&.menu_items&.any?
+
+    errors.add(:menu_item, "must not have any sub menu items")
   end
 end
