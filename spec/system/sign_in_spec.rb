@@ -17,8 +17,9 @@ describe 'Sign in and sign out' do
 
     within('.avo-sidebar') do
       expect(page).to have_content 'Accounts'
-      expect(page).to have_content 'Menu items'
       expect(page).to have_content 'Service codes'
+      expect(page).to have_content 'Sessions'
+      expect(page).to have_content 'Users'
     end
 
     find('a[data-control="profile-dots"]').click

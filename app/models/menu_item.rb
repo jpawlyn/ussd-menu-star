@@ -51,10 +51,6 @@ class MenuItem < ApplicationRecord
     user_inputs.empty?
   end
 
-  def avo_name
-    "#{title} (#{account.name})"
-  end
-
   def self.ransackable_attributes(_auth_object = nil)
     column_names
   end

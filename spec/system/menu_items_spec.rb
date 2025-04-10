@@ -18,7 +18,6 @@ describe 'Menu item admin actions' do
 
     click_on 'Create new menu item'
     fill_in 'Title', with: 'Sub menu'
-    select account.name, from: 'Account'
     click_on 'Save'
 
     expect(page).to have_content 'Menu item was successfully created.'

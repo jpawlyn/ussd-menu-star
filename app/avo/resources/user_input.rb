@@ -1,4 +1,5 @@
 class Avo::Resources::UserInput < Avo::BaseResource
+  self.visible_on_sidebar = false
   self.includes = [ :menu_item ]
   # self.attachments = []
   # self.search = {
