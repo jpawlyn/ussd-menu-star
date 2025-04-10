@@ -70,14 +70,20 @@ class MenuItem < ApplicationRecord
 
   def user_input_text
     next_user_input = fetch_next_user_input
-    next_user_input ? next_user_input.content : "#{fetch_content}\n0 Back"
+    if next_user_input
+      error_text = @error ? "#{@error}\n\n" : ""
+      "#{error_text}#{next_user_input.content}"
+    else
+      "#{fetch_content}\n0 Back"
+    end
   end
 
   def store_input(input)
     return self unless input.present?
 
     user_input = fetch_next_user_input
-    store_user_input(self, user_input, input) if user_input
+    @error = user_input&.validate_input(input)
+    store_user_input(self, user_input, input) if user_input && @error.nil?
     self
   end
 
