@@ -10,7 +10,7 @@ class Avo::Resources::Account < Avo::BaseResource
     field :id, as: :id
     field :name, as: :text
     field :service_code, as: :belongs_to
-    field :callback, as: :text, readonly: true do
+    field :callback, as: :text, readonly: true, copyable: true do
       "/ussd/callback/#{record.service_code.country_code.downcase}/#{record.service_code.short_name}"
     end
     field :menu_items, as: :has_many, hide_search_input: true, discreet_pagination: true
