@@ -52,6 +52,10 @@ class MenuItem < ApplicationRecord
     user_inputs.empty?
   end
 
+  def user_inputs?
+    user_inputs.any?
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     column_names
   end

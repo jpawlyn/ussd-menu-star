@@ -29,6 +29,7 @@ class Avo::Resources::MenuItem < Avo::BaseResource
   end
 
   def actions
+    action Avo::Actions::MenuItem::DownloadUserData, icon: "heroicons/outline/download"
     action Avo::Actions::MenuItem::MoveUp, icon: "heroicons/outline/arrow-small-up"
     action Avo::Actions::MenuItem::MoveDown, icon: "heroicons/outline/arrow-small-down"
   end

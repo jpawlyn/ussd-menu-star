@@ -34,6 +34,7 @@ gem "thruster", require: false
 
 gem "acts_as_list"
 gem "avo", ">= 3.2"
+gem "csv"
 gem "ransack"
 gem "request_store"
 

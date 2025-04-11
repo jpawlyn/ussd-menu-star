@@ -5,7 +5,7 @@ Capybara.register_driver(:cuprite_custom) do |app|
   headless = ENV["HEADLESS"].blank? || ENV["HEADLESS"]&.downcase == "true"
   Capybara::Cuprite::Driver.new(
     app, browser_options: { "no-sandbox": nil }, process_timeout: 20, window_size: [ 1400, 900 ],
-    inspector: ENV["INSPECTOR"], headless:
+    inspector: ENV["INSPECTOR"], save_path: Rails.root.join("tmp/downloads"), headless:
   )
 end
 

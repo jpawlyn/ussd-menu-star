@@ -5,6 +5,12 @@ module MenuItemHelpers
     end
   end
 
+  def within_top_panel
+    within(:xpath, "//*[@data-panel-id='main']") do
+      yield
+    end
+  end
+
   def check_menu_item(row:)
     find(:xpath, "//*[@id='has_many_field_show_menu_items']//tbody/tr[#{row}]//input[@type='checkbox']").set(true)
   end

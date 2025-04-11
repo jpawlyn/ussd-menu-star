@@ -1,4 +1,10 @@
 module UserInputHelpers
+  def within_user_inputs_panel
+    within(:xpath, "//*[@id='has_many_field_show_user_inputs']") do
+      yield
+    end
+  end
+
   def within_user_inputs_table(row:)
     within(:xpath, "//*[@id='has_many_field_show_user_inputs']//tbody/tr[#{row}]") do
       yield
