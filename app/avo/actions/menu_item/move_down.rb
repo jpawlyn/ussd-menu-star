@@ -19,7 +19,7 @@ class Avo::Actions::MenuItem::MoveDown < Avo::BaseAction
       do_nothing
       return
     end
-    query.last.move_lower # assume the first record is the parent 🤨
+    query.last.move_lower # the first record is the parent 🤨
     succeed "Successfully moved the menu item down one place"
   end
 end

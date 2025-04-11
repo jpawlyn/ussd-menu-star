@@ -15,4 +15,9 @@ class Avo::Resources::UserInput < Avo::BaseResource
     field :max_length, as: :number
     field :menu_item, as: :belongs_to
   end
+
+  def actions
+    action Avo::Actions::UserInput::MoveUp, icon: "heroicons/outline/arrow-small-up"
+    action Avo::Actions::UserInput::MoveDown, icon: "heroicons/outline/arrow-small-down"
+  end
 end
