@@ -1,8 +1,8 @@
 # USSD menu star
 
-This app enables static USSD menus to be created in [Avo admin](https://avohq.io/) and for these menus to be served via a callback API. The callback API is designed to work with [Africa's Talking](https://africastalking.com/ussd) [USSD callback API](https://developers.africastalking.com/docs/ussd/handle_sessions) but should be easily updatable to work with other providers.
+This app enables USSD menus to be created in [Avo admin](https://avohq.io/) and for these menus to be served via a callback API. The callback API is designed to work with [Africa's Talking](https://africastalking.com/ussd) [USSD callback API](https://developers.africastalking.com/docs/ussd/handle_sessions) but should be easily updatable to work with other providers.
 
-Handling user registration, dynamic USSD menus and custom menus are outstanding features waiting to be built.
+Input can be requested from your USSD users and persisted as JSON and this data can then be downloaded as a CSV file.
 
 ## Local development
 
@@ -52,6 +52,8 @@ Run the local server with:
 ```
 
 The app should now be available at http://localhost:3000
+
+Use [ngrok](https://ngrok.com/) to view and navigate the app in Africa's Talking [simulator](https://developers.africastalking.com/simulator). To use the simulator you first need to setup a USSD app in Africa's Talking sandbox environment and set the callback API URL.
 
 ## 💯 Tests
 
