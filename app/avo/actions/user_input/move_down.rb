@@ -2,7 +2,7 @@ class Avo::Actions::UserInput::MoveDown < Avo::BaseAction
   self.name = -> { "Move user input down" }
   self.no_confirmation = true
   self.visible = -> {
-    view == :index && resource
+    view == :index && parent_resource&.is_a?(Avo::Resources::MenuItem)
   }
 
   def handle(query:, fields:, current_user:, resource:, **args)

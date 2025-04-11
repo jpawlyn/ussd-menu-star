@@ -2,7 +2,7 @@ class Avo::Actions::MenuItem::MoveUp < Avo::BaseAction
   self.name = -> { "Move menu item up" }
   self.no_confirmation = true
   self.visible = -> {
-    view == :index && resource
+    view == :index && parent_resource&.is_a?(Avo::Resources::MenuItem)
   }
 
   def handle(query:, fields:, current_user:, resource:, **args)
