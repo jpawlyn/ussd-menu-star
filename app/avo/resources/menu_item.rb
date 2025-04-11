@@ -13,6 +13,7 @@ class Avo::Resources::MenuItem < Avo::BaseResource
     field :content, as: :textarea
     field :menu_item, as: :belongs_to, placeholder: "", attach_scope: -> {
       query.joins(:account).order(accounts: { name: :asc }).order(:position) }
+    field :terminate_session, as: :boolean
     field :account, as: :belongs_to, visible: -> { resource.record.menu_item.nil? }
     field :account_id, as: :hidden, default: -> { resource.record.menu_item.account.id }, only_on: :new,
         visible: -> { resource.record.menu_item }

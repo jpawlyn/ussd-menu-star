@@ -23,7 +23,8 @@ describe "User input" do
     Rails.cache.clear # relying on memory store so need to clear before each ussd test
   end
 
-  it "provide user health readings input" do
+  it "provide user health readings input followed by session termination" do
+    sub_menu_item.update!(terminate_session: true)
     post(ussd_callback_path(service_code.country_code, service_code.short_name), params:)
     expect(response.body).to eq expected_main_menu_response
 
@@ -37,7 +38,7 @@ describe "User input" do
     expect(response.body).to eq "CON #{user_input3.content}"
 
     post(ussd_callback_path(service_code.country_code, service_code.short_name), params: params.merge(text: "Good"))
-    expect(response.body).to eq "CON #{sub_menu_item.content}\n\n0 Back"
+    expect(response.body).to eq "END #{sub_menu_item.content}"
 
     user_data_collections = sub_menu_item.user_data_collections
     expect(user_data_collections.length).to eq 1

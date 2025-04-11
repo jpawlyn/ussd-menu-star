@@ -73,7 +73,8 @@ class MenuItem < ApplicationRecord
       "#{error_text}#{next_user_input.content}"
     else
       save_user_data_collection
-      "#{fetch_content}\n0 Back"
+      store_end_of_session(terminate_session)
+      terminate_session ? fetch_content.chop : "#{fetch_content}\n0 Back"
     end
   end
 
