@@ -40,7 +40,7 @@ $ bin/rails db:create RAILS_ENV=test
 $ bin/rails db:migrate
 ```
 
-Create [users](test/fixtures/user.yml) for sign in
+Create [users](test/fixtures/user.yml) for sign in and test [service codes](test/fixtures/service_codes.yml) and [accounts](test/fixtures/accounts.yml):
 ```bash
 bin/rails db:fixtures:load
 ```
