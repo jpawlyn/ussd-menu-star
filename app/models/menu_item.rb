@@ -44,7 +44,7 @@ class MenuItem < ApplicationRecord
     no_user_inputs? ? menu_items_text : user_input_text
   end
 
-  def select_menu_item(input)
+  def process_input(input)
     no_user_inputs? ? menu_items[input.to_i - 1] : store_input(input)
   end
 

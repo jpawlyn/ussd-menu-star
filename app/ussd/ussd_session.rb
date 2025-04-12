@@ -18,7 +18,7 @@ class UssdSession
     if fetch_current_menu_item && @user_input.present?
       return render_previous_menu(fetch_current_menu_item) if @user_input == "0"
 
-      menu_item = fetch_current_menu_item.select_menu_item(@user_input)
+      menu_item = fetch_current_menu_item.process_input(@user_input)
       # render main menu if menu item is not found
       menu_item ? render_menu(menu_item) : render_main_menu
     else
