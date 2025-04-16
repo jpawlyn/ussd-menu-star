@@ -9,7 +9,7 @@ class Avo::Resources::Account < Avo::BaseResource
   def fields
     field :id, as: :id
     field :name, as: :text
-    field :service_code, as: :belongs_to
+    field :service_code, as: :belongs_to, can_create: false
     field :callback, as: :text, readonly: true, copyable: true do
       "/ussd/callback/#{record.service_code.country_code.downcase}/#{record.service_code.short_name}"
     end
