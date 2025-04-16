@@ -11,8 +11,10 @@ class Avo::Resources::MenuItem < Avo::BaseResource
     field :id, as: :id
     field :title, as: :text
     field :content, as: :textarea
-    field :menu_item, as: :belongs_to, placeholder: "",
-      attach_scope: -> { query.where(account: parent.account).order(position: :asc, created_at: :asc) }
+    field :menu_item, as: :belongs_to, placeholder: "", can_create: false,
+      attach_scope: -> do
+        parent.account ? query.where(account: parent.account).order(position: :asc, created_at: :asc) : query
+      end
     field :terminate_session, as: :boolean
     field :account, as: :belongs_to, visible: -> { resource.record.menu_item.nil? }
     field :account_id, as: :hidden, default: -> { resource.record.menu_item.account.id }, only_on: :new,
