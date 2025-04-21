@@ -38,10 +38,6 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  config.after(:each, type: :system) do
-    FileUtils.rm_rf(Rails.root.join('tmp/downloads').to_s)
-  end
-
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 

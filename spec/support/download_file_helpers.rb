@@ -3,7 +3,7 @@ module DownloadFileHelpers
     file = Dir.glob(Rails.root.join("tmp/downloads/*"))[0]
     contents = File.read(file)
     expect(contents).to eq expect_contents
-    File.delete(file) # file cleanup also happens in after hook in the rails_helper
+    File.delete(file)
   end
 end
 
