@@ -45,7 +45,7 @@ class MenuItem < ApplicationRecord
   end
 
   def process_input(input)
-    no_user_inputs? ? menu_items[input.to_i - 1] : store_input(input)
+    no_user_inputs? ? menu_items.offset(input.to_i - 1).first : store_input(input)
   end
 
   def no_user_inputs?
