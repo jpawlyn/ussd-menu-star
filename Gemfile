@@ -37,6 +37,7 @@ gem "avo", ">= 3.2"
 gem "csv"
 gem "ransack"
 gem "request_store"
+gem "solid_cache", "~> 1.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

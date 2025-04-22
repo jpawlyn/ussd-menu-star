@@ -21,8 +21,11 @@ default: &default
 
 
 development:
-  <<: *default
-  database: ussd_menu_star_development
+  primary: &primary_development
+    <<: *default
+    database: ussd_menu_star_development
+  cache:
+    <<: *primary_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -79,7 +82,10 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: ussd_menu_star_production
-  username: ussd_menu_star
-  password: <%= ENV["USSD_MENU_STAR_DATABASE_PASSWORD"] %>
+  primary: &primary_production
+    <<: *default
+    database: ussd_menu_star_production
+    username: ussd_menu_star
+    password: <%= ENV["USSD_MENU_STAR_DATABASE_PASSWORD"] %>
+  cache:
+    <<: *primary_production

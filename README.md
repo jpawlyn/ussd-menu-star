@@ -71,6 +71,6 @@ To run system tests with a visible Chrome browser run:
 
 Tests are run [automatically](.github/workflows/ci.yml) when code is pushed to GitHub.
 
-## Production
+## Rails cache store
 
-To run the app in production a rails cache provider is required, something like [Redis](https://github.com/redis/redis-rb?tab=readme-ov-file#redis-rb--) or [Solid Cache](https://github.com/rails/solid_cache?tab=readme-ov-file#solid-cache).
+To app requires a rails cache store and for development and production this is set to [Solid Cache](https://github.com/rails/solid_cache?tab=readme-ov-file#solid-cache).
