@@ -81,7 +81,8 @@ jobs:
           DATABASE_URL: postgresql://ussd_menu_star:password@localhost:5432/
           RAILS_ENV: test
         run: |
-          bin/rails db:setup
+          bin/rails db:create
+          bin/rails db:schema:load
           # https://github.com/rubycdp/cuprite/issues/183#issuecomment-1009338926
           bin/rails assets:precompile
           bin/rspec
